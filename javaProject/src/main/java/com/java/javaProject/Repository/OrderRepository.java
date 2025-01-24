@@ -8,4 +8,7 @@ import com.java.javaProject.Entity.*;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByProductId(Long productId);
+	
+	List<Order> findByOrderStatus(OrderStatusEnum status);
+
 }

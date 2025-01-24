@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.java.javaProject.Entity.Order;
+import com.java.javaProject.Entity.OrderStatusEnum;
 
 public interface IOrderService {
 	List<Order> getAllOrders();
@@ -15,4 +16,7 @@ public interface IOrderService {
 	Optional<Order> findById(Long id);
 
 	List<Order> findByProductId(Long productId);
+
+	void updateOrderStatus(Long orderId, OrderStatusEnum newStatus);
+	List<Order> findByOrderStatus(OrderStatusEnum status);
 }

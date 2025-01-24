@@ -19,6 +19,18 @@ public class Order {
 	@Column(name = "quantity")
 	private int quantity;
 
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "order_status")
+	private OrderStatusEnum orderStatus = OrderStatusEnum.Bekliyor;
+
+	public OrderStatusEnum getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatusEnum orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
 	public Long getId() {
 		return id;
 	}

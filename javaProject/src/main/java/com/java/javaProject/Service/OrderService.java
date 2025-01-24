@@ -2,6 +2,7 @@ package com.java.javaProject.Service;
 
 import com.java.javaProject.Repository.*;
 import com.java.javaProject.Entity.Order;
+import com.java.javaProject.Entity.OrderStatusEnum;
 import com.java.javaProject.Entity.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +30,8 @@ public class OrderService implements IOrderService {
 
 	@Override
 	public Order saveOrder(Order order) {
-		Product product = productRepository.findById(order.getProduct().getId()).orElse(null);
-
-		if (product != null) {
-			int updatedStock = product.getStock() - order.getQuantity();
-
-			if (updatedStock < 0) {
-				throw new IllegalArgumentException("Yeterli stok bulunmamaktadır.");
-			}
-
-			product.setStock(updatedStock);
-			productRepository.save(product);
-
-			return orderRepository.save(order);
-		} else {
-			throw new IllegalArgumentException("Ürün bulunamadı.");
-		}
+		order.setOrderStatus(OrderStatusEnum.Bekliyor);
+		return orderRepository.save(order);
 	}
 
 	@Override
@@ -61,4 +48,39 @@ public class OrderService implements IOrderService {
 	public List<Order> findByProductId(Long productId) {
 		return orderRepository.findByProductId(productId);
 	}
+
+	public void updateOrderStatus(Long orderId, OrderStatusEnum newStatus) {
+		Optional<Order> orderOpt = orderRepository.findById(orderId);
+		if (orderOpt.isPresent()) {
+			Order order = orderOpt.get();
+			Product product = productRepository.findById(order.getProduct().getId()).orElse(null);
+
+			if (product == null) {
+				throw new IllegalArgumentException("Ürün bulunamadı.");
+			}
+
+			if (newStatus == OrderStatusEnum.Onaylandi) {
+				int updatedStock = product.getStock() - order.getQuantity();
+
+				if (updatedStock < 0) {
+					throw new IllegalArgumentException("Yeterli stok bulunmamaktadır.");
+				}
+
+				product.setStock(updatedStock);
+			} else if (newStatus == OrderStatusEnum.Iptal) {
+				product.setStock(product.getStock() + order.getQuantity());
+			}
+
+			productRepository.save(product);
+			order.setOrderStatus(newStatus);
+			orderRepository.save(order);
+		} else {
+			throw new IllegalArgumentException("Sipariş " + orderId + " bulunamadı");
+		}
+	}
+	public List<Order> findByOrderStatus(OrderStatusEnum status) {
+	    return orderRepository.findByOrderStatus(status);
+	}
+
+
 }

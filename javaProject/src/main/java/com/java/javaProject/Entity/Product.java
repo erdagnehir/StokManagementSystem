@@ -18,7 +18,7 @@ public class Product {
 	 private Integer stock;
 	 
 	 @ManyToOne
-	 @JoinColumn(name = "warehouse_id", nullable = false)
+	 @JoinColumn(name = "warehouse_id", nullable = false )
 	 private WareHouse wareHouse;
 		
 	public String getDescription() {
