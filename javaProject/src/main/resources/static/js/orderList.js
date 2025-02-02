@@ -23,10 +23,21 @@ document.addEventListener("DOMContentLoaded", () => {
 	const message = body.getAttribute("data-sweet-alert-message");
 	const type = body.getAttribute("data-sweet-alert-type");
 
-	if (message) {
+	if (message) {	
+		
+		let title;
+
+	        if (type === 'success') {
+	            title = 'Başarılı';
+	        } else if (type === 'error') {
+	            title = 'Bilgilendirme';
+	        } else {
+	            title = 'Uyarı';
+	        }
+
 		Swal.fire({
 			icon: type || 'info',
-			title: type === 'success' ? 'Başarılı' : 'Hata',
+			title: title,
 			text: message,
 			background: '#ffffff',
 			color: '#000000'

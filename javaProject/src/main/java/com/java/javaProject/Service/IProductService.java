@@ -12,4 +12,6 @@ public interface IProductService {
 	String deleteProduct(Long id);
 
 	Optional<Product> findById(Long id);
+	List<Product> getSortedProducts(String order);
+	List<Product> getLatestProducts();
 }

@@ -65,14 +65,18 @@ public class OrderController {
     }
 
     @PostMapping("/reject/{id}")
-    public String rejectOrder(@PathVariable Long id) {
+    public String rejectOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     	orderService.updateOrderStatus(id,OrderStatusEnum.Reddedildi);
+    	 redirectAttributes.addFlashAttribute("sweetAlertMessage", "Sipariş reddedildi!");
+         redirectAttributes.addFlashAttribute("sweetAlertType", "error");
         return "redirect:/orders";
     }
 
     @PostMapping("/cancel/{id}")
-    public String cancelOrder(@PathVariable Long id) {
+    public String cancelOrder(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     	orderService.updateOrderStatus(id,OrderStatusEnum.Iptal);
+    	redirectAttributes.addFlashAttribute("sweetAlertMessage", "Sipariş iptal edildi!");
+        redirectAttributes.addFlashAttribute("sweetAlertType", "error");
         return "redirect:/orders";
     }
     

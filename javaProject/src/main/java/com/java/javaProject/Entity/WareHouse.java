@@ -3,6 +3,8 @@ package com.java.javaProject.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class WareHouse {
 	private String location;
 
 	@OneToMany(mappedBy = "wareHouse", cascade = CascadeType.ALL, orphanRemoval = false)
+	@JsonIgnore
 	private List<Product> products = new ArrayList<>();
 
 	public Long getId() {
