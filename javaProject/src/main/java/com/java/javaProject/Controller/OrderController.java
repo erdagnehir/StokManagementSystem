@@ -2,10 +2,14 @@ package com.java.javaProject.Controller;
 import com.java.javaProject.Entity.Order;
 import com.java.javaProject.Entity.OrderStatusEnum;
 import com.java.javaProject.Entity.Product;
+import com.java.javaProject.Entity.User;
 import com.java.javaProject.Entity.WareHouse;
 import com.java.javaProject.Service.IOrderService;
 import com.java.javaProject.Service.IProductService;
 
+import jakarta.servlet.http.HttpSession;
+
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +44,25 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public String addOrder(@ModelAttribute Order order) {
-        orderService.saveOrder(order);
+    public String addOrder(@ModelAttribute Order order, RedirectAttributes redirectAttributes) {
+    	try {
+            LocalDate orderDate = LocalDate.now();
+            LocalDate estimatedShippingDate = orderDate.plusDays(2);
+
+            order.setOrderDate(orderDate);
+            orderService.saveOrder(order);
+
+            redirectAttributes.addFlashAttribute("sweetAlertMessage", "Siparişiniz başarıyla oluşturuldu!");
+            redirectAttributes.addFlashAttribute("sweetAlertType", "success");
+            redirectAttributes.addFlashAttribute("sweetAlertAction", "create");
+            redirectAttributes.addFlashAttribute("orderDate", orderDate.toString());
+            redirectAttributes.addFlashAttribute("estimatedShippingDate", estimatedShippingDate.toString());
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("sweetAlertMessage", "Sipariş oluşturulurken hata oluştu!");
+            redirectAttributes.addFlashAttribute("sweetAlertType", "error");
+            redirectAttributes.addFlashAttribute("sweetAlertAction", "create");
+        }
         return "redirect:/orders";
     }
 
@@ -57,9 +78,11 @@ public class OrderController {
             orderService.updateOrderStatus(id, OrderStatusEnum.Onaylandi);
             redirectAttributes.addFlashAttribute("sweetAlertMessage", "Sipariş başarıyla onaylandı!");
             redirectAttributes.addFlashAttribute("sweetAlertType", "success");
+            redirectAttributes.addFlashAttribute("sweetAlertAction", "approve");
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("sweetAlertMessage", e.getMessage());
             redirectAttributes.addFlashAttribute("sweetAlertType", "error");
+            redirectAttributes.addFlashAttribute("sweetAlertAction", "approve");
         }
         return "redirect:/orders";
     }
@@ -69,6 +92,7 @@ public class OrderController {
     	orderService.updateOrderStatus(id,OrderStatusEnum.Reddedildi);
     	 redirectAttributes.addFlashAttribute("sweetAlertMessage", "Sipariş reddedildi!");
          redirectAttributes.addFlashAttribute("sweetAlertType", "error");
+         redirectAttributes.addFlashAttribute("sweetAlertAction", "reject");
         return "redirect:/orders";
     }
 
@@ -77,6 +101,7 @@ public class OrderController {
     	orderService.updateOrderStatus(id,OrderStatusEnum.Iptal);
     	redirectAttributes.addFlashAttribute("sweetAlertMessage", "Sipariş iptal edildi!");
         redirectAttributes.addFlashAttribute("sweetAlertType", "error");
+        redirectAttributes.addFlashAttribute("sweetAlertAction", "reject");
         return "redirect:/orders";
     }
     

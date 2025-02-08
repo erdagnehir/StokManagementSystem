@@ -1,5 +1,6 @@
 package com.java.javaProject.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,5 @@ public interface IOrderService {
 
 	void updateOrderStatus(Long orderId, OrderStatusEnum newStatus);
 	List<Order> findByOrderStatus(OrderStatusEnum status);
+	List<Long> findMostOrderedProductsThisWeek(LocalDate startDate);
 }

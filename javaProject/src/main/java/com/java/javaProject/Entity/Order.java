@@ -1,5 +1,8 @@
 package com.java.javaProject.Entity;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +21,17 @@ public class Order {
 
 	@Column(name = "quantity")
 	private int quantity;
+	
+	@Column(name = "orderDate")
+	private LocalDate orderDate = LocalDate.now();
+
+	public LocalDate getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(LocalDate orderDate) {
+		this.orderDate = orderDate;
+	}
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "order_status")

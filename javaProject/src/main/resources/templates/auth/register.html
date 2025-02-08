@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Üye Ol</title>
+<link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="bg-light"
+	th:attr="data-sweet-alert-message=${sweetAlertMessage != null ? sweetAlertMessage : ''}, 
+             data-sweet-alert-type=${sweetAlertType != null ? sweetAlertType : ''},
+             data-sweet-alert-action=${sweetAlertAction != null ? sweetAlertAction : ''},
+             data-registered-user-name=${registeredUserName != null ? registeredUserName : ''}">
+
+	<div th:replace="fragments/sidebar"></div>
+
+	<div class="auth-container">
+		<h2>Üye Ol</h2>
+		<form th:action="@{/auth/registerAdd}" th:object="${user}"
+			method="post">
+			<input type="text" id="usernameInput" th:field="*{username}"
+				placeholder="Kullanıcı Adı" required>
+		        <div id="usernameError" class="mt-2 text-danger" style="display: none;">Bu kullanıcı adı zaten kullanılıyor!</div>
+			<input type="password" th:field="*{password}" placeholder="Şifre"
+				required> <input type="text" name="nameSurname"
+				placeholder="Ad Soyad" required> <input type="tel"
+				name="phoneNumber" placeholder="Telefon Numarası"
+				pattern="[0-9]{10}" title="Telefon numarası 10 haneli olmalıdır"
+				required>
+
+			<textarea name="adress"
+				class="form-control shadow-sm address-textarea"
+				placeholder="Adresinizi girin" rows="3" required></textarea>
+
+			<select th:field="*{role}" required>
+				<option value="" disabled selected>Rol Seçin</option>
+				<option th:each="role : ${roles}" th:value="${role}"
+					th:text="${role.description}"></option>
+			</select>
+
+			<button id="registerButton" type="submit">Kayıt Ol</button>
+		</form>
+
+		<p th:if="${error}" style="color: red;" th:text="${error}"></p>
+		<p>
+			Zaten hesabınız var mı? <a href="/auth/login">Giriş Yap</a>
+		</p>
+	</div>
+</body>
+</html>

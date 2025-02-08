@@ -1,0 +1,128 @@
+/* Sidebar Genel Stil */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #343a40;
+    padding-top: 20px;
+    color: white;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Kapalıyken */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar .nav-link {
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: padding 0.3s ease;
+}
+
+.sidebar .nav-link i {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* Sidebar Açıkken Metin Görünsün */
+.sidebar .sidebar-text {
+    display: inline;
+    transition: opacity 0.3s ease;
+}
+
+/* Sidebar Kapalıyken Metni Gizle */
+.sidebar.collapsed .sidebar-text {
+    display: none;
+}
+
+/* Aç/Kapa Butonu */
+.toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Sayfanın Geri Kalanı İçin Margin */
+body {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed + body {
+    margin-left: 80px;
+}
+/* Sidebar Genel Stil */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #343a40;
+    padding-top: 20px;
+    color: white;
+    transition: width 0.3s ease;
+}
+
+/* Sidebar Kapalıyken */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar .nav-link {
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: padding 0.3s ease;
+}
+
+.sidebar .nav-link i {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* Sidebar Açıkken Metin Görünsün */
+.sidebar .sidebar-text {
+    display: inline;
+    transition: opacity 0.3s ease;
+}
+
+/* Sidebar Kapalıyken Metni Gizle */
+.sidebar.collapsed .sidebar-text {
+    display: none;
+}
+
+/* Aç/Kapa Butonu */
+.toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Sayfanın Geri Kalanı İçin Margin */
+body {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed + body {
+    margin-left: 80px;
+}

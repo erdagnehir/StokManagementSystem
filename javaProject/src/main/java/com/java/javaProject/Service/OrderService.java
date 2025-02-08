@@ -1,12 +1,17 @@
 package com.java.javaProject.Service;
 
 import com.java.javaProject.Repository.*;
+
+import jakarta.persistence.EntityManager;
+
 import com.java.javaProject.Entity.Order;
 import com.java.javaProject.Entity.OrderStatusEnum;
 import com.java.javaProject.Entity.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +19,8 @@ import java.util.Optional;
 public class OrderService implements IOrderService {
 	@Autowired
 	private final OrderRepository orderRepository;
-
+	@Autowired
+	private EntityManager entityManager;
 	@Autowired
 	private final ProductRepository productRepository;
 
@@ -78,9 +84,16 @@ public class OrderService implements IOrderService {
 			throw new IllegalArgumentException("Sipariş " + orderId + " bulunamadı");
 		}
 	}
+
 	public List<Order> findByOrderStatus(OrderStatusEnum status) {
-	    return orderRepository.findByOrderStatus(status);
+		return orderRepository.findByOrderStatus(status);
 	}
 
+	public List<Long> findMostOrderedProductsThisWeek(LocalDate startDate) {
+		return entityManager
+				.createQuery("SELECT o.product.id FROM Order o " + "WHERE o.orderDate >= :startDate "
+						+ "GROUP BY o.product.id " + "ORDER BY SUM(o.quantity) DESC", Long.class)
+				.setParameter("startDate", startDate).setMaxResults(3).getResultList();
+	}
 
 }

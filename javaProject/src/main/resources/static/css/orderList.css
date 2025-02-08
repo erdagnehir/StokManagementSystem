@@ -1,107 +1,62 @@
-h1 {
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
-}
 .card {
     border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.table {
-    border-radius: 10px;
-    overflow: hidden;
-}
-.add-button {
-    display: inline-block;
-    margin-bottom: 15px;
-    margin-top: -10px;
-}
-/* 🔵 Anasayfa Butonunu Daha Büyük Yap */
-.home-icon {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 26px; /* 🔹 İkon büyütüldü */
-    font-weight: bold;
-    padding: 8px 12px; /* 🔹 Daha geniş padding */
-    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔵 Anasayfa Yazısını ve İkonunu Büyüt */
-.home-icon a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-    font-size: 22px; /* 🔹 Yazı büyütüldü */
-    display: flex;
-    align-items: center;
-    gap: 8px; /* 🔹 İkon ve yazı arasındaki boşluğu artır */
+h1 {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    font-size: 28px;
 }
 
-/* 🔵 Hover Efekti */
-.home-icon a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-
-/* 🔵 Filtreleme Alanını Küçük ve Modern Hale Getir */
 .status-filter-container {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 5px;
-    justify-content: flex-start;
+    gap: 10px;
 }
 
-/* 🔵 Mavi Filtreleme Select */
 .status-filter {
-    font-size: 13px;
-    border-radius: 4px;
-    padding: 3px 8px;
-    max-width: 130px;
-    height: 30px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
+    font-size: 16px;
+    border-radius: 8px;
+    padding: 6px 12px;
+    max-width: 180px;
+    height: 40px;
+    background: #007bff;
     color: white;
     border: none;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    appearance: none;
 }
 
 .status-filter:hover {
-    background: linear-gradient(135deg, #0056b3, #003d80);
+    background: #0056b3;
 }
 
-.status-filter:focus {
-    outline: none;
-    box-shadow: 0px 0px 8px rgba(0, 91, 187, 0.6);
+.status-filter option {
+    background: white;
+    color: black;
 }
 
-/* 🔵 Filtreleme Butonu */
 .filter-button {
-    font-size: 13px;
-    padding: 5px 12px;
-    border-radius: 4px;
-    height: 30px;
-    background: #007bff;
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    height: 40px;
+    background: #28a745;
     color: white;
     font-weight: bold;
     border: none;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
-/* 🔵 Filtreleme Butonu Hover */
 .filter-button:hover {
-    background: #0056b3;
+    background: #218838;
 }
 
-/* 🔵 Filtreleme Butonundaki İkon */
-.filter-button i {
-    font-size: 14px;
-    color: white;
+.shadow {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
 }
-
-

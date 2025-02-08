@@ -5,108 +5,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Siparişler</title>
+
+<!-- Bootstrap & FontAwesome -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
-<!-- Bootstrap Icons CSS -->
-<link rel="stylesheet" href="/css/orderList.css">
-<!-- Include a required theme -->
+
+<!-- SweetAlert 2 -->
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
+<!-- Özel CSS -->
+<link rel="stylesheet" href="/css/orderList.css">
 </head>
 
 <body class="bg-light"
-	th:attr="data-sweet-alert-message=${sweetAlertMessage}, 
-             data-sweet-alert-type=${sweetAlertType}">
+	th:attr="data-sweet-alert-message=${sweetAlertMessage}, data-sweet-alert-type=${sweetAlertType},
+             data-sweet-alert-action=${sweetAlertAction}, data-order-date=${orderDate},
+             data-estimated-shipping-date=${estimatedShippingDate}">
 
-
-	<div class="home-icon">
-		<a href="/" class="text-decoration-none"> <i
-			class="bi bi-house-door"></i> Anasayfa
-		</a>
-	</div>
+	<div th:replace="fragments/sidebar"></div>
 
 	<div class="container my-5">
-		<div class="card p-4">
-			<div class="d-flex align-items-center">
-				<div class="add-button">
-					<a href="/orders/add" class="btn btn-primary">Sipariş Oluştur</a>
-				</div>
-				<h1 class="mx-auto">Sipariş Listesi</h1>
+		<div class="card p-4 shadow-lg">
+			<div class="d-flex justify-content-between align-items-center mb-3">
+				<h1 class="fw-bold text-primary">📦 Sipariş Listesi</h1>
+				<a href="/orders/add" class="btn btn-success btn-lg shadow"> <i
+					class="bi bi-plus-lg"></i> Yeni Sipariş
+				</a>
+			</div>
+
+			<div
+				class="status-filter-container d-flex justify-content-start align-items-center mb-4">
+				<label for="statusFilter" class="me-2 fw-bold text-dark">Durum:</label>
+				<select id="statusFilter" name="status" class="status-filter">
+					<option value="">Hepsi</option>
+					<option value="Bekliyor">Bekliyor</option>
+					<option value="Onaylandi">Onaylandı</option>
+					<option value="Reddedildi">Reddedildi</option>
+					<option value="Iptal">İptal Edildi</option>
+				</select>
+				<button type="button" class="filter-button ms-2 shadow"
+					onclick="filterOrders()">
+					<i class="bi bi-search"></i> Sorgula
+				</button>
 			</div>
 
 			<div class="table-responsive">
-				<div class="status-filter-container">
-					<label for="statusFilter">Durum:</label> <select id="statusFilter"
-						name="status" class="form-select status-filter">
-						<option value="">Hepsi</option>
-						<option value="Bekliyor">Bekliyor</option>
-						<option value="Onaylandi">Onaylandı</option>
-						<option value="Reddedildi">Reddedildi</option>
-						<option value="Iptal">İptal Edildi</option>
-					</select>
-					<button type="button" class="btn filter-button"
-						onclick="filterOrders()">
-						<i class="bi bi-funnel"></i> Filtrele
-					</button>
-				</div>
-
-
-				<table class="table table-striped table-hover">
-					<thead class="table-dark">
+				<table class="table table-hover align-middle">
+					<thead class="table-dark text-center">
 						<tr>
 							<th>Müşteri</th>
 							<th>Adet</th>
 							<th>Ürün</th>
 							<th>Sipariş Durumu</th>
-							<th>Hareketler</th>
+							<th
+								th:if="${session.loggedInUser != null and session.loggedInUser.role.name() == 'Admin'}">Hareketler</th>
 						</tr>
 					</thead>
 					<tbody th:fragment="orderTable">
-						<tr th:each="order : ${orders}">
-							<td th:text="${order.customerName}"></td>
-							<td th:text="${order.quantity}"></td>
+						<tr th:each="order : ${orders}" class="text-center">
+							<td th:text="${order.customerName}" class="fw-bold"></td>
+							<td th:text="${order.quantity}" class="text-primary fw-bold"></td>
 							<td th:text="${order.product.name}"></td>
-							<td th:text="${order.orderStatus.description}"></td>
-							<td>
+							<td th:text="${order.orderStatus.description}"
+								class="fw-bold text-warning"></td>
+							<td
+								th:if="${session.loggedInUser != null and session.loggedInUser.role.name() == 'Admin'}">
 								<div th:if="${order.orderStatus.name() == 'Onaylandi'}">
 									<form th:action="@{/orders/cancel/{id}(id=${order.id})}"
 										method="post" class="d-inline">
-										<button type="submit" class="btn btn-danger btn-sm">İptal
+										<button type="submit" class="btn btn-danger btn-sm shadow">İptal
 											Et</button>
 									</form>
 								</div>
 								<div th:if="${order.orderStatus.name() == 'Bekliyor'}">
 									<form th:action="@{/orders/approve/{id}(id=${order.id})}"
 										method="post" class="d-inline">
-										<button type="submit" class="btn btn-success btn-sm">Onayla</button>
+										<button type="submit" class="btn btn-success btn-sm shadow">Onayla</button>
 									</form>
 									<form th:action="@{/orders/reject/{id}(id=${order.id})}"
 										method="post" class="d-inline">
-										<button type="submit" class="btn btn-danger btn-sm">Reddet</button>
+										<button type="submit" class="btn btn-danger btn-sm shadow">Reddet</button>
 									</form>
 								</div>
 							</td>
 						</tr>
 					</tbody>
-
 				</table>
-
 			</div>
 		</div>
 	</div>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="/js/globalSweetAlert.js"></script>
 	<script src="/js/orderList.js"></script>
 </body>
 
 </html>
-

@@ -18,30 +18,6 @@ function filterOrders() {
 		.catch(error => console.error('Error fetching filtered orders:', error));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-	const body = document.querySelector("body");
-	const message = body.getAttribute("data-sweet-alert-message");
-	const type = body.getAttribute("data-sweet-alert-type");
 
-	if (message) {	
-		
-		let title;
 
-	        if (type === 'success') {
-	            title = 'Başarılı';
-	        } else if (type === 'error') {
-	            title = 'Bilgilendirme';
-	        } else {
-	            title = 'Uyarı';
-	        }
-
-		Swal.fire({
-			icon: type || 'info',
-			title: title,
-			text: message,
-			background: '#ffffff',
-			color: '#000000'
-		});
-	}
-});
 
